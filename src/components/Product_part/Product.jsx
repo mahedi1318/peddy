@@ -3,13 +3,30 @@ import Category from '../Cetagory_part/Category'
 import { petsAll } from '../../assets/data'
 import { AiOutlineLike } from "react-icons/ai";
 import DetailsPopup from '../Details_popup/DetailsPopup';
+import AdoptCount from '../AdoptCount_part/AdoptCount';
 
 const Product = () => {
 
     const [selectedPet, setSelectedPet] = useState(null); 
+    const [adoptCount, setAdoptCount] = useState(3); 
+    const [showCongratsPopup, setShowCongratsPopup] = useState(false);
     
     const handleDetailsClick=(pet)=>{
         setSelectedPet(pet)        
+    }
+
+    const handleAdoptClick = ()=>{
+        setShowCongratsPopup(true);
+        let timer = adoptCount;
+        const stopCount = setInterval(() => {
+          timer -= 1;
+          setAdoptCount(timer);
+          if (timer <= 0) {
+            clearInterval(stopCount);
+            setShowCongratsPopup(false); 
+            setAdoptCount(3); 
+          }
+        }, 1000);
     }
 
     const closePopup = () => {
@@ -37,7 +54,7 @@ const Product = () => {
                                 </ul>
                                 <div className="flex justify-between mt-4 text-white">
                                     <button className='px-5 py-2 bg-gray-700 rounded-lg' type='button'><AiOutlineLike className='text-[25px]' /></button>
-                                    <button className='px-5 py-2 bg-gray-700 rounded-lg' type='button'>Adopt</button>
+                                    <button onClick={handleAdoptClick} className='px-5 py-2 bg-gray-700 rounded-lg' type='button'>Adopt</button>
                                     <button onClick={() => handleDetailsClick(item)} className='px-5 py-2 bg-gray-700 rounded-lg' type='button'>Details</button>
                                 </div>
                             </div>
@@ -55,6 +72,10 @@ const Product = () => {
     </div>
     {selectedPet && (
         <DetailsPopup selectedPet={selectedPet} closePopup={closePopup} />
+    )}
+
+    {showCongratsPopup && (
+        <AdoptCount adoptCount={adoptCount}/>
     )}
     </div>
     
