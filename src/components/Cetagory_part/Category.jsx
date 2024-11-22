@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { categories } from '../../assets/data'
 
-const Category = () => {
+const Category = ({onChangeCatagory}) => {
 
-    let [activeTab, setActiveTab] = useState(1)
+    let [activeTab, setActiveTab] = useState(0)
     
 
 
     const handleClickCategory = (id)=>{       
-        setActiveTab(id)     
-        console.log(id)   
+        setActiveTab(id)  
+        onChangeCatagory(id)  
     }
-
+    
   return (
     <>
     <div className="mb-9">
